@@ -1,5 +1,6 @@
 import { WordleSolver } from "../../core/solver";
 import { LessRepeatedLettersStrategy } from "../../core/strategies/lessRepeatedLettersStrategy";
+import { LetterFrequenciesENStrategy } from "../../core/strategies/letterFrequenciesENStrategy";
 import { WordsDifferFromPreviousGuessStrategy } from "../../core/strategies/wordsDifferFromPreviousGuessStrategy";
 import { environment } from "../../environment";
 import { addSolveButtonToGame, WordleGameDomInterface } from "./game_dom";
@@ -27,13 +28,14 @@ class WordleGameSolver extends WordleSolver {
 
   const dictionary: string[] = window['dictionary'];
   const wordleSolver = new WordleGameSolver(dictionary, wordleGameDom, [
+    new LetterFrequenciesENStrategy(),
     new LessRepeatedLettersStrategy(),
     new WordsDifferFromPreviousGuessStrategy()
   ]);
 
   addSolveButtonToGame(wordleGameDom, async function handler() {
     this.removeEventListener('click', handler);
-    await wordleSolver.start(3000);
+    await wordleSolver.start(3500);
     this.remove();
     if (environment.debugOutput) {
       console.log('Game finished!');

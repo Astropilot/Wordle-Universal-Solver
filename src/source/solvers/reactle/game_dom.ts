@@ -8,8 +8,22 @@ export class ReactleGameDomInterface extends GameDomInterface {
     return document.querySelectorAll('#root > div > div.pb-6 > div.flex');
   }
 
-  isGameFinished(): boolean { // TODO: Fix the victory case
-    return document.querySelector('div.bg-rose-500.text-white > div.p-4 > p.text-center') !== null;
+  isGameFinished(): boolean {
+    const rows = this.getGameDomGridRows();
+    let isVictory = false;
+
+    for (const row of rows) {
+      const correctCount = row.querySelectorAll('div.correct').length;
+
+      if (correctCount === this.getGameWordSize()) {
+        isVictory = true;
+        break;
+      }
+    }
+
+    const isLoose = document.querySelector('div.bg-rose-500.text-white > div.p-4 > p.text-center') !== null;
+
+    return isVictory || isLoose;
   }
 
   isGamePending(): boolean {

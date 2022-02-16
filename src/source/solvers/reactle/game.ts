@@ -1,5 +1,6 @@
 import { WordleSolver } from "../../core/solver";
 import { LessRepeatedLettersStrategy } from "../../core/strategies/lessRepeatedLettersStrategy";
+import { LetterFrequenciesENStrategy } from "../../core/strategies/letterFrequenciesENStrategy";
 import { WordsDifferFromPreviousGuessStrategy } from "../../core/strategies/wordsDifferFromPreviousGuessStrategy";
 import { environment } from "../../environment";
 import { addSolveButtonToGame, ReactleGameDomInterface } from "./game_dom";
@@ -21,6 +22,7 @@ class ReactleGameSolver extends WordleSolver {
 
   const dictionary: string[] = await (await fetch(chrome.runtime.getURL('solvers/reactle/dictionary_en.json'))).json();
   const reactleSolver = new ReactleGameSolver(dictionary, reactleGameDom, [
+    new LetterFrequenciesENStrategy(),
     new LessRepeatedLettersStrategy(),
     new WordsDifferFromPreviousGuessStrategy()
   ]);
